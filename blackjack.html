@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src = jquery-3.1.1.js></script>
+    <script src = blackjackver2.js></script>
+    <style>
+      *{
+      box-sizing: border-box;
+      font-family: "Courier New", Courier, monospace;
+      }
+
+      #table{
+        border : 5px solid black;
+        border-radius: 20px;
+        padding: 50px 10px 50px 10px;
+        background: linear-gradient(#4286f4,#42f4bc);
+        z-index: 1;
+      }
+
+      .buttons{
+        text-align: center;
+      }
+      button{
+        margin-top: 15px;
+        padding : 10px;
+        font-size: 1em;
+        border-radius: 15px;
+        background-color: white;
+        opacity: 0.85;
+      }
+
+      label{
+        font-size: 1.5em;
+        margin-left: 10px;
+      }
+      #dealer-hand, #player-hand{
+        height: 120px;
+        background-color: #ffffff;
+        border-radius: 15px;
+        opacity: 1;
+        margin: 10px;
+      }
+      .cards{
+        display:inline-block;
+        height:100px;
+        margin:10px;
+        opacity: 1;
+      }
+      #GameResult{
+        float: left;
+        position: absolute;
+        top:2%;
+        left:44%;
+        z-index: 2;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="table">
+      <div id="messages"></div>
+      <label>Dealer: </label>
+      <label id="dealer-points" class="points"></label>
+      <div id="dealer-hand" class="hand">
+        <!--
+        <img class = "cards" src="images/2_of_clubs.png">
+        <img class = "cards" src="images/2_of_diamonds.png">
+      -->
+      </div>
+      <label>Player: </label>
+      <label id="player-points" class="points"></label>
+      <div id="player-hand" class="hand">
+        <!-- <img class = "cards" src="images/2_of_hearts.png">
+        <img class = "cards" src="images/2_of_spades.png"> -->
+      </div>
+      <div class="buttons">
+        <button id="deal-button">Deal</button>
+        <button id="hit-button">Hit</button>
+        <button id="stand-button">Stand</button>
+      </div>
+    </div>
+
+    <div id="GameResult">
+      <h1 id "result"></h1>
+    </div>
+
+  </body>
+</html>
