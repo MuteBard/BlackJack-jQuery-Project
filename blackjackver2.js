@@ -107,10 +107,37 @@ Deck.prototype.numCardsLeft = function(){
 
 $(function(){
   //create the deck of cards and shuffle it before the game starts
-  tableDeck = new Deck();
-  tableDeck.shuffle();
-  $('#hit-button').hide();
-  $('#stand-button').hide();
+  if($('#player-points').text() == "0"){
+    tableDeck = new Deck();
+    tableDeck.shuffle();
+    $('#hit-button').hide();
+    $('#stand-button').hide();
+    $('#reset-button').hide();
+  }
+  //Check For Winner/Loser
+  var win = function checkVictor(dealerHand,playerHand){
+      var reset = false;
+    if(dealerHand.getPoints() > 21 && playerHand.getPoints() > 21){
+      $('#result').text("Bust! You Lost!")
+      reset = true;
+    }else if(dealerHand.getPoints() == 21 && playerHand.getPoints() !== 21){
+      $('#result').text("Bust! You Lost!")
+      reset = true;
+    }else if(playerHand.getPoints() > 21){
+      $('#result').text("Bust! You Lost!")
+      reset = true;
+    }else if(dealerHand.getPoints() > 21){
+      $('#result').text("You Won!")
+      reset = true;
+    }
+
+    //toggle the reset button when it is the end of the game
+    if(reset == true){
+      $('#hit-button').hide();
+      $('#stand-button').hide();
+      $('#reset-button').toggle();
+    }
+  }
 
   //DEAL
   //when the deal button is clicked, hide the button and start dealing 2 cards to each player
@@ -118,18 +145,6 @@ $(function(){
     $('#deal-button').hide();
     $('#hit-button').toggle();
     $('#stand-button').toggle();
-
-    //Check For Winner/Loser
-    function checkVictor(dealerHand,PlayerHand){
-      if(dealerHand.getPoints() > 21 && playerhand.getPoints() > 21){
-        $('#result').text("Bust, You Lost!")
-      }else if(PlayerHand.getPoints() > 21){
-        $('#result').text("Bust You Lost!")
-      }else if(DealerHand.getPoints() > 21){
-        $('#result').text("You Won! :3 ")
-      }
-    }
-
 
     //draw two cards from the deck and assign both to card values
     var card = tableDeck.draw()
@@ -148,6 +163,7 @@ $(function(){
     var card = tableDeck.draw()
     var dealerCard2 = new Card(card.point,card.suit);
 
+
     dealerHand = new Hand();
     dealerHand.addCard(dealerCard1)
     dealerHand.addCard(dealerCard2)
@@ -163,8 +179,11 @@ $(function(){
     $('#dealer-points').text(dealerHand.getPoints())
   });
 
+
+
   //HIT
   $('#hit-button').click(function(){
+
     // let the player acquire a hit card from the deck
     var card = tableDeck.draw()
     var playerHitCard = new Card(card.point,card.suit);
@@ -178,27 +197,42 @@ $(function(){
     //display updated score
     $('#player-points').text(playerHand.getPoints())
 
-    checkVictor(dealerHand,PlayerHand)
+    win(dealerHand,playerHand)
   });
 
   //STAND
   $('#stand-button').click(function(){
+    //Dealer must take a card if the sum of their points is less than 17
+    if(Number(dealerHand.getPoints()) < 17){
+      // let the dealer acquire a stand card from the deck
+      var card = tableDeck.draw()
+      var dealerStandCard = new Card(card.point,card.suit);
 
-    // let the dealer acquire a stand card from the deck
-    var card = tableDeck.draw()
-    var dealerStandCard = new Card(card.point,card.suit);
+      //add this card to the player hand
+      dealerHand.addCard(dealerStandCard)
 
-    //add this card to the player hand
-    dealerHand.addCard(dealerStandCard)
+      //display this card on the screen
+      $('#dealer-hand').append('<img class = "cards" src='+dealerStandCard.getImageUrl()+'>')
 
-    //display this card on the screen
-    $('#dealer-hand').append('<img class = "cards" src='+dealerStandCard.getImageUrl()+'>')
+      //display updated score
+      $('#dealer-points').text(dealerHand.getPoints())
 
-    //display updated score
-    $('#dealer-points').text(dealerHand.getPoints())
-
-    checkVictor(dealerHand,PlayerHand)
+    //otherwise the dealer does not need to take more cards
+    }else{
+      $('#stand-button').toggle();
+    }
+    win(dealerHand,playerHand)
   });
 
-
+  //PLAY AGAIN
+  $('#reset-button').click(function(){
+    //reset all points, deck are togge buttons to be ready for a new game
+    $('#reset-button').toggle();
+    $('#deal-button').toggle();
+    $('#player-points').text("0");
+    $('#dealer-points').text("0");
+    $('#player-hand').text("");
+    $('#dealer-hand').text("");
+    $('#result').text("");
+    });
 });

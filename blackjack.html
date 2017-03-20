@@ -40,7 +40,7 @@
         background-color: #ffffff;
         border-radius: 15px;
         opacity: 1;
-        margin: 10px;
+        margin: 20px 10px 10px 10px;
       }
       .cards{
         display:inline-block;
@@ -52,7 +52,7 @@
         float: left;
         position: absolute;
         top:2%;
-        left:44%;
+        left:34%;
         z-index: 2;
       }
 
@@ -60,9 +60,12 @@
   </head>
   <body>
     <div id="table">
+      <div id="GameResult">
+        <h1 id = "result"></h1>
+      </div>
       <div id="messages"></div>
       <label>Dealer: </label>
-      <label id="dealer-points" class="points"></label>
+      <label id="dealer-points" class="points">0</label>
       <div id="dealer-hand" class="hand">
         <!--
         <img class = "cards" src="images/2_of_clubs.png">
@@ -70,7 +73,7 @@
       -->
       </div>
       <label>Player: </label>
-      <label id="player-points" class="points"></label>
+      <label id="player-points" class="points">0</label>
       <div id="player-hand" class="hand">
         <!-- <img class = "cards" src="images/2_of_hearts.png">
         <img class = "cards" src="images/2_of_spades.png"> -->
@@ -79,12 +82,11 @@
         <button id="deal-button">Deal</button>
         <button id="hit-button">Hit</button>
         <button id="stand-button">Stand</button>
+        <button id="reset-button">play again</button>
       </div>
     </div>
 
-    <div id="GameResult">
-      <h1 id "result"></h1>
-    </div>
+
 
   </body>
 </html>
